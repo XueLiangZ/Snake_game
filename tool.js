@@ -7,8 +7,8 @@
 
 const config = {
   // 游戏区域的大小
-  row: 35,
-  col: 50,
+  row: 25,
+  col: 30,
 
   //每个小方块的宽度
   sW: 20,
@@ -20,9 +20,6 @@ const config = {
  * 基础类Square
  */
 class Square {
-  static sW = config.sW;
-  static col = config.col;
-  static row = config.row;
   /**
    *
    * @param {number} x x坐标
@@ -34,8 +31,8 @@ class Square {
     }
     this.x = x;
     this.y = y;
-    this.width = Square.sW;
-    this.height = Square.sW;
+    this.width = config.sW;
+    this.height = config.sW;
     this.dom = document.createElement("div");
   }
 }
@@ -77,6 +74,8 @@ class SnakeHead extends Square {
       SnakeHead.instance = new SnakeHead(x,y);
       return SnakeHead.instance;
     }
+    SnakeHead.instance.x = x;
+    SnakeHead.instance.y = y;
     return SnakeHead.instance;
   }
   constructor(x, y) {
@@ -84,4 +83,23 @@ class SnakeHead extends Square {
   }
 }
 
-export {config, Floor, Wall, SnakeBody,SnakeHead};
+/**
+ * 食物实例(单例)
+ */
+class Food extends Square {
+  static getInstance(x,y) {
+    if (!Food.instance) {
+      Food.instance = new Food(x,y);
+      return Food.instance;
+    }
+    Food.instance.x = x;
+    Food.instance.y = y;
+    return Food.instance;
+  }
+  constructor(x, y) {
+    super(x, y);
+  }
+}
+
+
+export {config, Floor, Wall, SnakeBody,SnakeHead,Food};

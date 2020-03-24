@@ -13,9 +13,9 @@ class Ground {
    * @param {number} y y坐标
    * @param {elemnt} el 要挂载到的Dom元素
    */
-  static getInstance(x, y, el) {
+  static getInstance(x, y, el, snake) {
     if (!Ground.instance) {
-      Ground.instance = new Ground(x, y, el);
+      Ground.instance = new Ground(x, y, el, snake);
       return Ground.instance;
     }
     return Ground.instance;
@@ -29,7 +29,9 @@ class Ground {
     this.el = el;
     this.dom = document.createElement("div");
     //存储场景中每一个小方块信息 ,数组类型[[],[],[]...]
-    this.squareArr = [];
+		this.squareArr = [];
+		
+		this.init();
   }
   init() {
     this.dom.style.position = "absolute";
@@ -41,7 +43,6 @@ class Ground {
     this.dom.style.backgroundColor = "#b3e5fc";
 
     this.el.appendChild(this.dom);
-    console.log("init");
     this.getSquareArr();
   }
   /**
@@ -49,6 +50,7 @@ class Ground {
    */
   getSquareArr() {
     var {col, row} = config;
+    this.squareArr = new Array(col);
     for (var j = 0; j < row; j++) {
       //列==>j
       // 每一行是一个长度为row的数组
@@ -65,7 +67,8 @@ class Ground {
         this.squareArr[j][i] = newSquare;
         this.dom.appendChild(newSquare.dom);
       }
-    }
+		}
+		console.log(this.squareArr)
   }
   /**
    * 在场景中添加小方块
@@ -83,22 +86,23 @@ class Ground {
   /**
    * 在场景中移除小方块
    * @param {*} square 实例
-   * @param {number} x x坐标
-   * @param {number} y y坐标
+   * @param {number} x x坐标 0~col-1;
+   * @param {number} y y坐标	0~row-1
    */
   remove(x, y) {
-    // dom中移除
+		// dom中移除
     var sq = this.squareArr[y][x];
-    sq.dom.remove();
+      sq.dom.remove();
 
     //数组中移除
     this.squareArr[y][x] = null;
   }
 }
 
-const ground = Ground.getInstance(20, 20, document.body);
+export default Ground;
 
-ground.init();
+// const snake = new Snake();
+// snake.move();
 
 /* 
 var snakeHead = Factory.create("snakeHead", 3, 1);

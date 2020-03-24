@@ -1,8 +1,7 @@
-import {Floor, Wall, SnakeBody, SnakeHead} from "./tool.js";
+import {Floor, Wall, SnakeBody, SnakeHead, Food} from "./tool.js";
 
 class Factory {
   constructor() {}
-
   /**
    * @param {object} square 方块实例
    * @param {string} color 颜色值
@@ -20,7 +19,6 @@ class Factory {
    * 创建地板生产线
    * @param {*} x
    * @param {*} y
-   * @param {*} color
    */
   createFloor(x, y) {
     var floor = new Floor(x, y);
@@ -34,7 +32,6 @@ class Factory {
    * 创建围墙生产线
    * @param {*} x
    * @param {*} y
-   * @param {*} color
    */
   createWall(x, y) {
     var wall = new Wall(x, y);
@@ -47,7 +44,6 @@ class Factory {
    * 创建蛇头(单例)生产线
    * @param {*} x
    * @param {*} y
-   * @param {*} color
    */
   createSnakeHead(x, y) {
     var snakeHead = SnakeHead.getInstance(x, y);
@@ -60,7 +56,6 @@ class Factory {
    * 创建蛇身生产线
    * @param {*} x
    * @param {*} y
-   * @param {*} color
    */
   createSnakeBody(x, y) {
     var snakeBody = new SnakeBody(x, y);
@@ -70,11 +65,22 @@ class Factory {
   }
 
   /**
+   * 创建食物(单例)生产线
+   * @param {*} x
+   * @param {*} y
+   */
+  createFood(x, y) {
+    var food = Food.getInstance(x, y);
+    food.color = "#ff3d00";
+    this.init(food);
+    return food;
+  }
+
+  /**
    * 通过Factory.create()调用;返回实例对象
    * @param {string} type 实例类型 : ['floor','wall','food','snakeHead','snakeBody','food']
    * @param {number} x x坐标
    * @param {number} y y坐标
-   * @param {string} color 颜色值
    */
   static create(type, x, y) {
     Factory.product = new Factory();
@@ -88,6 +94,9 @@ class Factory {
 
       case "snakeBody":
         return Factory.product.createSnakeBody(x, y);
+
+      case "food":
+        return Factory.product.createFood(x, y);
 
       default:
         throw new Error("需要给定type参数");
