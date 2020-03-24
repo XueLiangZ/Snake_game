@@ -6,9 +6,9 @@ import Snake from "./Snake.js";
 const snake = new Snake();
 
 document.addEventListener("keydown", e => {
-	console.log(e.keyCode);
+
 	//游戏开始之前不能更改direction的值
-  if (snake.timer) return;
+  if (!snake.timer) return;
   switch (e.keyCode) {
     case 37:
       if (snake.direction != "right") {
@@ -42,4 +42,4 @@ document.addEventListener("click", _ => {
     snake.start();
   }
 });
->>>>>>> Stashed changes
+
